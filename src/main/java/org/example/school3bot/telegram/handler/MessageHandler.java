@@ -1,5 +1,7 @@
 package org.example.school3bot.telegram.handler;
 
+import org.example.school3bot.constant.Answer;
+import org.example.school3bot.telegram.keyboard.InlineKeyboardMarker;
 import org.example.school3bot.telegram.keyboard.ReplyKeyboardMarker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,11 +21,26 @@ public class MessageHandler {
 
     public BotApiMethod<?> processMessageAnswer(Message message) {
         if (message.hasText()) {
-            if (message.getText().equals("/start")) {
-                SendMessage answer = new SendMessage
-                        (message.getChatId().toString(), "Мои почтение, " + message.getChat().getFirstName());
-                answer.setReplyMarkup(replyKeyboardMarker.getMainMenu());
-                return answer;
+            String chatId = message.getChatId().toString();
+            String textMsg = message.getText();
+            SendMessage answer;
+
+            switch (textMsg) {
+                case "/start" -> {
+                    answer = new SendMessage(chatId, "Мои почтение, " + message.getChat().getFirstName());
+                    answer.setReplyMarkup(replyKeyboardMarker.getMainMenu());
+                    return answer;
+                }
+                case "Расписание уроков" -> {
+                    answer = new SendMessage(chatId, Answer.CHOOSE_DAY);
+                    answer.setReplyMarkup(InlineKeyboardMarker.getDay());
+                    return answer;
+                }
+                case "Расписание звонков" -> {
+                    answer = new SendMessage(chatId, "Полноценные али сокращённые уроки?");
+                    answer.setReplyMarkup(InlineKeyboardMarker.getTimetable());
+                    return answer;
+                }
             }
         }
 
