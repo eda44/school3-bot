@@ -1,6 +1,6 @@
 package org.example.school3bot.telegram.handler;
 
-import org.example.school3bot.constant.Answer;
+import org.example.school3bot.constant.Text;
 import org.example.school3bot.telegram.keyboard.InlineKeyboardMarker;
 import org.example.school3bot.telegram.keyboard.ReplyKeyboardMarker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,25 +25,26 @@ public class MessageHandler {
             String textMsg = message.getText();
             SendMessage answer;
 
-            switch (textMsg) {
-                case "/start" -> {
-                    answer = new SendMessage(chatId, "Мои почтение, " + message.getChat().getFirstName());
-                    answer.setReplyMarkup(replyKeyboardMarker.getMainMenu());
-                    return answer;
-                }
-                case "Расписание уроков" -> {
-                    answer = new SendMessage(chatId, Answer.CHOOSE_DAY);
-                    answer.setReplyMarkup(InlineKeyboardMarker.getDay());
-                    return answer;
-                }
-                case "Расписание звонков" -> {
-                    answer = new SendMessage(chatId, "Полноценные али сокращённые уроки?");
-                    answer.setReplyMarkup(InlineKeyboardMarker.getTimetable());
-                    return answer;
-                }
+            if(textMsg.equals(Text.START_MESSAGE.getValue()))
+            {
+                answer = new SendMessage(chatId, Text.GREETING.getValue() + message.getChat().getFirstName());
+                answer.setReplyMarkup(replyKeyboardMarker.getMainMenu());
+                return answer;
+            }
+            else if(textMsg.equals(Text.LESSONS_SCHEDULE.getValue()))
+            {
+                answer = new SendMessage(chatId, Text.CHOOSE_DAY.getValue());
+                answer.setReplyMarkup(InlineKeyboardMarker.getDay());
+                return answer;
+            }
+            else if(textMsg.equals(Text.BELLS_SCHEDULE.getValue()))
+            {
+                answer = new SendMessage(chatId, Text.CHOOSE_BELLS_SCHEDULE.getValue());
+                answer.setReplyMarkup(InlineKeyboardMarker.getTimetable());
+                return answer;
             }
         }
 
-        return new SendMessage(message.getChatId().toString(), "Извини, приятель, но такой команды не существует");
+        return new SendMessage(message.getChatId().toString(), Text.ERROR.getValue());
     }
 }

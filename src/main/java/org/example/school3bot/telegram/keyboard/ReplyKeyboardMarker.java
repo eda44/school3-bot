@@ -1,5 +1,6 @@
 package org.example.school3bot.telegram.keyboard;
 
+import org.example.school3bot.constant.Text;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
@@ -12,8 +13,8 @@ public class ReplyKeyboardMarker {
 
     public ReplyKeyboardMarkup getMainMenu() {
         KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(new KeyboardButton("Расписание уроков"));
-        keyboardRow.add(new KeyboardButton("Расписание звонков"));
+        keyboardRow.add(new KeyboardButton(Text.LESSONS_SCHEDULE.getValue()));
+        //keyboardRow.add(new KeyboardButton(Text.BELLS_SCHEDULE.getValue()));
 
         List<KeyboardRow> keyboardRows = new ArrayList<>();
         keyboardRows.add(keyboardRow);

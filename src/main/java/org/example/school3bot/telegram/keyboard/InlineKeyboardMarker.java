@@ -1,5 +1,6 @@
 package org.example.school3bot.telegram.keyboard;
 
+import org.example.school3bot.constant.Bell;
 import org.example.school3bot.constant.Day;
 import org.example.school3bot.constant.Letter;
 import org.example.school3bot.constant.Parallel;
@@ -19,7 +20,7 @@ public class InlineKeyboardMarker {
         for (Day day : Day.values())
             week.add(day.getDayOfWeek());
 
-        return getInlineKeyboard(week, Day.CALLBACK_DATA);
+        return getInlineKeyboard(week);
     }
 
     public static InlineKeyboardMarkup getParallel() {
@@ -29,7 +30,7 @@ public class InlineKeyboardMarker {
         for (Parallel parallel : Parallel.values())
             parallels.add(parallel.getParallel());
 
-        return getInlineKeyboard(parallels, Parallel.CALLBACK_DATA);
+        return getInlineKeyboard(parallels);
     }
 
     public static InlineKeyboardMarkup getLetter() {
@@ -38,9 +39,17 @@ public class InlineKeyboardMarker {
         for (Letter letter : Letter.values())
             letters.add(letter.getLetter());
 
-        return getInlineKeyboard(letters, Letter.CALLBACK_DATA);
+        return getInlineKeyboard(letters);
     }
-    private static InlineKeyboardMarkup getInlineKeyboard(List<String> nameButton, String callbackData) {
+    public static InlineKeyboardMarkup getTimetable() {
+        List<String> bells = new ArrayList<>();
+        for (Bell bell : Bell.values())
+            bells.add(bell.getValue());
+
+        return getInlineKeyboard(bells);
+    }
+
+    private static InlineKeyboardMarkup getInlineKeyboard(List<String> nameButton) {
 
         List<List<InlineKeyboardButton>> allRows = new ArrayList<>();
 
@@ -53,28 +62,5 @@ public class InlineKeyboardMarker {
         }
 
         return new InlineKeyboardMarkup(allRows);
-    }
-
-    public static InlineKeyboardMarkup getTimetable() {
-        InlineKeyboardMarkup timeTable = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton longLessons = new InlineKeyboardButton();
-        longLessons.setText("Полноценные");
-        longLessons.setCallbackData("full");
-
-        InlineKeyboardButton shortLessons = new InlineKeyboardButton();
-        shortLessons.setText("Сокращенные");
-        shortLessons.setCallbackData("short");
-
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(longLessons);
-        firstRow.add(shortLessons);
-
-        List<List<InlineKeyboardButton>> allRows = new ArrayList<>();
-        allRows.add(firstRow);
-
-        timeTable.setKeyboard(allRows);
-
-        return timeTable;
     }
 }
