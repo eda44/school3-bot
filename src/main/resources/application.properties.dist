@@ -4,3 +4,5 @@ telegram.api-url=
 telegram.webhook-path=
 telegram.bot-name=
 telegram.bot-token=
+
+table_path=
